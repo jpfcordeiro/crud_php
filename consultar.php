@@ -39,6 +39,7 @@
     $conexao->close();
 
     ?>
+
     <table border="3">
         <thead>
             <th>ID</th>

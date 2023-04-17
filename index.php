@@ -31,15 +31,11 @@
 
                 <div class="botoes">
                     <input type="submit" value="Salvar" class="btSalvar" />
-                    <input type="button" value="Consultar" class="btConsulta"
-                        onclick="location.href='consultar.php';" />
+                    <input type="button" value="Consultar" class="btConsulta" onclick="location.href='consultar.php';" />
                 </div>
             </form>
-
         </div>
-        <?php
-        require("salvar.php");
-        ?>
+        <?php require("salvar.php"); ?>
     </div>
 </body>
 
