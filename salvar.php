@@ -19,8 +19,7 @@
             $categoria = "Magreza";
         }
 
-        echo "<br>Olá! $nome você tem 
-        $idade anos, seu IMC é $imc, tratando-se de $categoria!";
+        echo "<br>Olá! $nome você tem $idade anos, seu IMC é $imc, tratando-se de $categoria!";
     
     require("conexao.php");
 

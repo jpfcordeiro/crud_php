@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -11,42 +11,29 @@
 </head>
 
 <body>
-    <h1>Alternado Dados no Banco de Dados via formulário</h1>
-    <!--Vamos utilizar como base para a codificação o código do Inserir_dados#02.php  e realizar alguns ajustes para o alterar.-->
+    <h1>Modificar Registro</h1>
     <?php
-    //Inserir o require_once("conxeao") e o $conexao=novaConexao() logo no inicio de nosso bloco php.
     require_once("conexao.php");
     $conexao = novaConexao();
 
-    //vamos criar um formulario antes de nosso formulário principal para que possamos passar a chave código que conterá o id do registro, para que possamos identificar o registro a ser alterado, que será passado por um método $_GET.
     if (isset($_GET['codigo'])) {
 
-        //Vamos realizar o select de todos os dados utilizando um prepare()
         $sql = "SELECT * FROM cadastros WHERE id = ? ";
 
-        //Criando o prepare() para a consulta
         $consulta = $conexao->prepare($sql);
-        //Fazendo bind para a consulta, que será do tipo inteiro "i", vindo a informação do $_GET['codigo'].
         $consulta->bind_param("i", $_GET['codigo']);
 
-        //Executar a $consulta e verificar se o resultado dela for verdadeiro, pegar o resultado do execute da $consulta.
         if ($consulta->execute()) {
-            $resultado = $consulta->get_result(); //função get_result(), pega o resultado obtido pela execução da $consulta.
-    
-            //Verificar o resultado obtido através do num_rows se o resultado for maior que zero vamos gerar um ARRAY Associativo.
+            $resultado = $consulta->get_result();
+
             if ($resultado->num_rows > 0) {
 
                 $dados = $resultado->fetch_assoc();
-            
-
-                 //Como vamos receber o salario do banco de dados temos que tratar novamente o salario, para apresentar no formulário.
-                
             }
         }
-        //Proximo passo é criar um formulário HTML onde o usuario possa inserir qual usuario deseja alterar.
     }
 
-    
+
     if (count($_POST) > 0) {
 
         $dados = $_POST;
@@ -58,10 +45,8 @@
 
         if (count($erros) == 0) {
 
-           //Vamos alterar a sintaxe de inserir para alterar agora
             $sql = "UPDATE cadastros SET nome = ?, nascimento = ?, altura = ?, peso = ? WHERE id = ?";
 
-           
             $consultar = $conexao->prepare($sql);
 
             $params = [
@@ -71,8 +56,7 @@
                 $dados['peso'],
                 $_GET['codigo']
             ];
-        
-            //Como foi inserido mais uma chave no $params, temos que colocar o tipo de dado da chave inserida no $param que em nosso caso trata-se de um inteiro, sendo assim devemos colocar i no final dos tipos de dados no bind_param
+
             $consultar->bind_param("siddi", ...$params);
 
             if ($consultar->execute()) {
@@ -84,8 +68,7 @@
     ?>
 
     <form method="POST">
-        <!--ID escondido-->
-        <input type="hidden" name="id" value="<?= $dados['id']  ?>">
+        <input type="hidden" name="id" value="<?= $dados['id'] ?>">
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label for="nome">Nome:</label>
@@ -111,28 +94,26 @@
         </div>
 
         <div class="form-row">
-            
+
             <div class="form-group col-md-6">
                 <label for="Altura">Altura:</label>
                 <input type="text" class="form-control <?php echo isset($erros['altura']) ? 'is-invalid' : '' ?>"
                     id="id_altura" name="altura" placeholder="Altura"
                     value="<?php echo isset($dados['altura']) ? $dados['altura'] : '' ?>">
-                
+
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="Peso">Peso:</label>
-                <input type="number" class="form-control"
-                    id="peso" name="peso" placeholder="Peso"
+                <input type="number" class="form-control" id="peso" name="peso" placeholder="Peso"
                     value="<?php echo isset($dados['peso']) ? $dados['peso'] : '' ?>">
                 <div class="invalid-feedback">
                     <?php echo $erros['peso'] ?>
                 </div>
             </div>
 
-            
         </div>
         <div class="mb-3">
             <button class="btn btn-primary btn-lg">Enviar</button>
