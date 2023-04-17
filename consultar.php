@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -16,8 +16,8 @@
 
     if (isset($_GET['excluir'])) {
 
-        $excluirSQL = "DELETE FROM cadastros WHERE id = ?";
-        $stmt = $conexao->prepare($excluirSQL);
+        $delete = "DELETE FROM cadastros WHERE id = ?";
+        $stmt = $conexao->prepare($delete);
         $stmt->bind_param("i", $_GET['excluir']);
         $stmt->execute();
     }
@@ -70,7 +70,7 @@
                         <a href="consultar.php?excluir=<?= $registro['id'] ?>"> Excluir </a>
                     </td>
                     <td>
-                        <a href="alterar.php?codigo=<?= $registro['id'] ?>">Alterar </a>
+                        <a href="alterar.php?codigo=<?= $registro['id'] ?>"> Alterar </a>
                     </td>
                 </tr>
             <?php endforeach ?>
